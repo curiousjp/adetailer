@@ -188,6 +188,14 @@ def one_ui_group(n: int, is_img2img: bool, webui_info: WebuiInfo):
                 elem_id=eid("ad_negative_prompt"),
             )
 
+        with gr.Row():
+            w.ad_remove_lora = gr.Checkbox(
+                label="Remove LORA from prompts",
+                value=False,
+                visible=True,
+                elem_id=eid('ad_remove_lora')
+            )
+
     with gr.Group():
         with gr.Accordion(
             "Detection", open=False, elem_id=eid("ad_detection_accordion")

@@ -320,7 +320,15 @@ class AfterDetailerScript(scripts.Script):
             p.negative_prompt,
             prompt_sr,
         )
-
+        def _remove_lora(prompt_string: str) -> str:
+            # foo, <lora:bar:1>,
+            prompt_string = re.sub(r',? ?<.+?>', '', prompt_string, re.M)
+            # foo, (<lora:bar:1>:1)
+            prompt_string = re.sub(r',? ?\(:.+?\)', '', prompt_string, re.M)
+            return prompt_string
+        if args.ad_remove_lora:
+            prompt = [_remove_lora(x) for x in prompt]
+            negative_prompt = [_remove_lora(x) for x in negative_prompt]
         return prompt, negative_prompt
 
     def get_seed(self, p) -> tuple[int, int]:
